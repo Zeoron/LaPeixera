@@ -14,7 +14,7 @@ public class Peixera {
 	//ATRIBUTS DE LA PEIXERA
 	int altura;
 	int amplada;
-	GRectangle pantalla = new GRectangle(0 ,0 , amplada, altura); //ESPAI QUE OCUPA LA PEIXERA (BOUNDS)
+	/*GRectangle pantalla = new GRectangle(0 ,0 , amplada, altura); //ESPAI QUE OCUPA LA PEIXERA (BOUNDS)*/
 	
 	//CONSTRUCTOR DE PEIXERA
 	public Peixera (int x, int y) {
@@ -38,8 +38,19 @@ public class Peixera {
 	//METODE QUE CONTROLA EL MOVIMENT DELS PEIXOS
 	public void mourePeixos() {
 		for (Peix p : peixos) {
-			p.movimentPeix();
-			colisionaParets(p);
+			if (!p.isEliminar()) {
+				p.movimentPeix();
+				colisionaParets(p);
+				Peix col = colisionaPeixos(p);
+				if (colisionaPeixos(p)!=null) {
+					if (p.getSexe()==col.getSexe()) {
+						p.setEliminar();
+						col.setEliminar();
+					} else {
+					
+					}
+				}
+			}
 		}
 	}
 	
@@ -85,14 +96,14 @@ public class Peixera {
 		}
 	}
 	
-	public boolean colisionaPeixos() {
-		for (Peix p : peixos) {
-			for (Peix pes : peixos) {
-				if (p.espaiOcupa().intersects(pes.espaiOcupa())){
-					return true;
+	public Peix colisionaPeixos(Peix p) {
+		for (Peix pes : peixos) {
+			if (p != pes && !(pes.isEliminar())) {
+				if (p.colisiona(pes)) {
+					return pes;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 }

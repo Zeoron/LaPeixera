@@ -21,6 +21,14 @@ public class Peix {
 		this.sexe = sexe;
 	}
 	
+	public boolean colisiona(Peix p) {
+		if (imatge.getBounds().intersects(p.espaiOcupa())) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 	
 	//GETTERS AND SETTERS
 	public int getSexe() {
@@ -29,8 +37,9 @@ public class Peix {
 	public boolean isEliminar() {
 		return eliminar;
 	}
-	public void setEliminar(boolean eliminar) {
-		this.eliminar = eliminar;
+	public void setEliminar() {
+		imatge.setVisible(false);
+		this.eliminar = true;
 	}
 	public int getAmplada() {
 		return (int) imatge.getWidth();

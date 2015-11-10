@@ -24,12 +24,10 @@ public class App extends GraphicsProgram {
 		
 		invocarPeixos();
 		lloc.posicionarPeix();
+		pause(100);
 		
 		while (lloc.finalitza()) {
 			lloc.mourePeixos();
-			if (lloc.colisionaPeixos()) {
-				System.out.println("Aqui!");
-			}
 			pause(100);
 		}
 	}
@@ -37,7 +35,7 @@ public class App extends GraphicsProgram {
 	//METODE DE CREACIÓ DE PEIXOS
 	public void invocarPeixos() {
 		GImage pez;
-		for (int i = 0; i<10;i++) {
+		for (int i = 0; i<20;i++) {
 			int anglePeix = POSSIBLESANGLES[aleatori.nextInt(POSSIBLESANGLES.length)];
 			int sexePeix = aleatori.nextInt(2);
 			String textPeix = "peix" + sexePeix + "" + anglePeix + ".png";
