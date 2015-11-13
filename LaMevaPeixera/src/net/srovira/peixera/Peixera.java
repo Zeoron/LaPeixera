@@ -3,7 +3,6 @@ package net.srovira.peixera;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import acm.graphics.GRectangle;
 
 public class Peixera {
@@ -11,15 +10,19 @@ public class Peixera {
 	//LISTA DE PEIXOS ACTIUS
 	List<Peix> peixos = new ArrayList<Peix>();
 	
+	List<Peix> bebes = new ArrayList<Peix>();
+	
 	//ATRIBUTS DE LA PEIXERA
 	int altura;
 	int amplada;
+	App pantalla;
 	/*GRectangle pantalla = new GRectangle(0 ,0 , amplada, altura); //ESPAI QUE OCUPA LA PEIXERA (BOUNDS)*/
 	
 	//CONSTRUCTOR DE PEIXERA
-	public Peixera (int x, int y) {
+	public Peixera (App pantalla, int x, int y) {
 		amplada = x;
 		altura = y;
+		this.pantalla = pantalla;
 	}
 
 	//METODE PER AFEGIR ELS PEIXOS A L'ARRAI DE PEIXOS ACTIUS
@@ -37,22 +40,51 @@ public class Peixera {
 	
 	//METODE QUE CONTROLA EL MOVIMENT DELS PEIXOS
 	public void mourePeixos() {
+		//Recorrer la llista de peixos
 		for (Peix p : peixos) {
+			///Si el peix NO esta mort...
 			if (!p.isEliminar()) {
-				p.movimentPeix();
-				colisionaParets(p);
-				Peix col = colisionaPeixos(p);
-				if (colisionaPeixos(p)!=null) {
-					if (p.getSexe()==col.getSexe()) {
-						p.setEliminar();
-						col.setEliminar();
-					} else {
-					
+				p.movimentPeix(); //Moure els peixos
+				colisionaParets(p); //Comprovar les colisions amb les parets
+				Peix col = colisionaPeixos(p); //Metode que comprova la
+				if (colisionaPeixos(p)!=null) { //Si el resultat torna un peix...
+					if (p.getSexe()==col.getSexe()) { //Si el sexe es el mateix...
+						p.setEliminar(); //Eliminar el peix seleccionat
+						col.setEliminar(); //Eliminar el peix retorinat per la colisio
+					} else { //Si el sexe es diferent han de criar
+						if (p.isCriant() == false && col.isCriant()== false) {
+							p.setCriant(true);
+							col.setCriant(true);
+							crearPeixBebe(p, col);
+						}
 					}
+				} else {
+					p.setCriant(false);
 				}
+				
+			//Si el peix SI esta mort...
+			}
+		}
+		colisionsBebes();
+	}
+
+	public void crearPeixBebe(Peix p, Peix col) {
+		GRectangle posicioFill = p.espaiOcupa().intersection(col.espaiOcupa());
+		Peix nouBebe = pantalla.crearPeix();
+		bebes.add(nouBebe);
+		nouBebe.posicionarPeix((int)posicioFill.getX(), (int)posicioFill.getY());
+	}
+
+	public void colisionsBebes() {
+		for (int i = bebes.size()-1;i>=0;i--) {
+			if (colisionaPeixos(bebes.get(i))==null) {
+				Peix bebe = bebes.get(i);
+				peixos.add(bebe);
+				bebes.remove(bebe);
 			}
 		}
 	}
+	
 	
 	//CONTROL DE LA FINALITZACIÓ DEL PROGRAMA SI HENS QUEDEM SENSE PEIXOS
 	public boolean finalitza() {

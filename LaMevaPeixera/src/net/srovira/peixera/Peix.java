@@ -6,9 +6,11 @@ import acm.graphics.GRectangle;
 public class Peix {
 	//ATRIBUTS DEL PEIX
 	GImage imatge;
-	int velocitat = 5;
+	int velocitat = 1;
 	int angle;
 	int sexe;
+	boolean criant = false;
+	
 	boolean eliminar = false;
 	
 	
@@ -28,6 +30,13 @@ public class Peix {
 		return false;
 	}
 	
+	public boolean isCriant() {
+		return criant;
+	}
+
+	public void setCriant(Boolean es) {
+		criant = es;
+	}
 	
 	
 	//GETTERS AND SETTERS

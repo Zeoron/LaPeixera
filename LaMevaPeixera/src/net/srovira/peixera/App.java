@@ -20,7 +20,7 @@ public class App extends GraphicsProgram {
 		setBackground(Color.LIGHT_GRAY);
 		pause(100);
 		
-		lloc = new Peixera(getWidth(), getHeight());
+		lloc = new Peixera(this, getWidth(), getHeight());
 		
 		invocarPeixos();
 		lloc.posicionarPeix();
@@ -28,23 +28,27 @@ public class App extends GraphicsProgram {
 		
 		while (lloc.finalitza()) {
 			lloc.mourePeixos();
-			pause(100);
+			pause(30);
 		}
 	}
 	
 	//METODE DE CREACIÓ DE PEIXOS
 	public void invocarPeixos() {
-		GImage pez;
-		for (int i = 0; i<20;i++) {
-			int anglePeix = POSSIBLESANGLES[aleatori.nextInt(POSSIBLESANGLES.length)];
-			int sexePeix = aleatori.nextInt(2);
-			String textPeix = "peix" + sexePeix + "" + anglePeix + ".png";
-			pez = new GImage(textPeix);
-			/*pez.scale(midaAleatoria());*/
-			add(pez);
-			Peix temp = new Peix(pez, anglePeix, sexePeix);
+		for (int i = 0; i<200;i++) {
+			Peix temp = crearPeix();
 			lloc.crearPeixos(temp);
 		}
+	}
+
+	public Peix crearPeix() {
+		GImage pez;
+		int anglePeix = POSSIBLESANGLES[aleatori.nextInt(POSSIBLESANGLES.length)];
+		int sexePeix = aleatori.nextInt(2);
+		String textPeix = "peix" + sexePeix + "" + anglePeix + ".png";
+		pez = new GImage(textPeix);
+		add(pez);
+		Peix temp = new Peix(pez, anglePeix, sexePeix);
+		return temp;
 	}
 	
 	//METODE PER VARIAR LA ESCALA DELS PEIXOS I OBTENIR DIFERENTS MIDES
