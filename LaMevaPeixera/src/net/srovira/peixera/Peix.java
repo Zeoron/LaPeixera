@@ -10,7 +10,6 @@ public class Peix {
 	int angle;
 	int sexe;
 	boolean criant = false;
-	
 	boolean eliminar = false;
 	
 	

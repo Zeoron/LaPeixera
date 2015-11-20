@@ -23,18 +23,19 @@ public class App extends GraphicsProgram {
 		lloc = new Peixera(this, getWidth(), getHeight());
 		
 		invocarPeixos();
+		pause(1000);
 		lloc.posicionarPeix();
-		pause(100);
+		pause(1000);
 		
 		while (lloc.finalitza()) {
 			lloc.mourePeixos();
-			pause(30);
+			pause(10);
 		}
 	}
 	
 	//METODE DE CREACIÓ DE PEIXOS
 	public void invocarPeixos() {
-		for (int i = 0; i<200;i++) {
+		for (int i = 0; i<100;i++) {
 			Peix temp = crearPeix();
 			lloc.crearPeixos(temp);
 		}
